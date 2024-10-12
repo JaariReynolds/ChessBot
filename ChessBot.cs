@@ -25,7 +25,7 @@ namespace ChessBot
             var randomPiece = teamActions.ElementAt(rnd.Next(0, teamActions.Count));
             var pieceActions = teamActions[randomPiece.Key];
 
-            return pieceActions[0];
+            return pieceActions[rnd.Next(0, pieceActions.Count)];
         }
     }
 }
