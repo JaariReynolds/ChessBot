@@ -28,14 +28,14 @@ namespace ChessBot
             return score;
         }
 
-        public static int Minimax(this Gameboard gameboard, int depth, bool isMaximisingPlayer)
+        public static int Minimax(this Gameboard gameboard, int depth, bool isMaximisingPlayer, int alpha, int beta)
         {
             if (depth == 0 || gameboard.CheckmateTeamColour != CheckStatus.None)
             {
                 return gameboard.MaterialEvaluation();
             }
 
-            if (isMaximisingPlayer)
+            if (isMaximisingPlayer) // bot's turn
             {
                 int maxEval = int.MinValue;
 
@@ -46,12 +46,16 @@ namespace ChessBot
                     Action simulatedAction = new(action);
                     simulatedBoard.PerformAction(simulatedAction);
 
-                    int eval = Minimax(simulatedBoard, depth - 1, false);
+                    int eval = Minimax(simulatedBoard, depth - 1, false, alpha, beta);
                     maxEval = Math.Max(maxEval, eval);
+                    alpha = Math.Max(alpha, eval);
+
+                    if (beta <= alpha)
+                        break;
                 }
                 return maxEval;
             }
-            else
+            else // player's turn
             {
                 int minEval = int.MaxValue;
                 // White is always the player
@@ -61,8 +65,12 @@ namespace ChessBot
                     Action simulatedAction = new(action);
                     simulatedBoard.PerformAction(simulatedAction);
 
-                    int eval = Minimax(simulatedBoard, depth - 1, false);
+                    int eval = Minimax(simulatedBoard, depth - 1, true, alpha, beta);
                     minEval = Math.Min(minEval, eval);
+                    beta = Math.Min(beta, eval);
+
+                    if (beta <= alpha)
+                        break;
                 }
                 return minEval;
             }
