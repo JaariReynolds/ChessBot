@@ -18,14 +18,7 @@ namespace ChessBot
 
         public Action CalculateBestAction()
         {
-
-            var teamActions = _gameboard.CalculateTeamActions(_gameboard.CurrentTeamColour);
-
-            var rnd = new Random();
-            var randomPiece = teamActions.ElementAt(rnd.Next(0, teamActions.Count));
-            var pieceActions = teamActions[randomPiece.Key];
-
-            return pieceActions[rnd.Next(0, pieceActions.Count)];
+            return _gameboard.GetBestAction(2);
         }
     }
 }
