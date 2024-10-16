@@ -16,9 +16,34 @@ namespace ChessBot
             _gameboard = gameboard;
         }
 
-        public Action CalculateBestAction()
+        public Action CalculateBestAction(int depth)
         {
-            return _gameboard.GetBestAction(2);
+            if (depth == 0)
+                throw new ArgumentOutOfRangeException("Depth of 0 is not a valid Minimax depth.");
+
+            ChessBotMethods.EvaluatedActionsCount = 0;
+
+            int bestScore = int.MinValue;
+            Action bestAction = null!;
+
+            foreach (var action in _gameboard.CalculateTeamActionsList(_gameboard.CurrentTeamColour))
+            {
+                Gameboard simulatedBoard = new(_gameboard);
+                Action simulatedAction = new(action);
+                simulatedBoard.PerformAction(simulatedAction);
+                int moveScore = ChessBotMethods.Minimax(simulatedBoard, depth - 1, false, _gameboard.CurrentTeamColour, int.MinValue, int.MaxValue);
+
+                if (moveScore > bestScore)
+                {
+                    bestScore = moveScore;
+                    bestAction = action;
+                }
+            }
+
+            Console.WriteLine($"selected action: {bestAction}");
+            Console.WriteLine($"actions evaluated: {ChessBotMethods.EvaluatedActionsCount}");
+            Console.WriteLine("-----------------");
+            return bestAction!;
         }
     }
 }
