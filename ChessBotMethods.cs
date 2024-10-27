@@ -20,7 +20,7 @@ namespace ChessBot
                 {
                     var piece = gameboard.Board[i][j];
 
-                    if (piece == null || piece.Name == "King") continue;
+                    if (piece == null || piece.Name == PieceName.King) continue;
 
                     score += piece.TeamColour == botTeam ? piece.PieceValue : -piece.PieceValue;
                 }
