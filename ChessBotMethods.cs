@@ -32,7 +32,7 @@ namespace ChessBot
 
         public static int Minimax(this Gameboard gameboard, int depth, bool isMaximisingPlayer, TeamColour botTeamColour, int alpha, int beta)
         {
-            if (depth == 0 || gameboard.CheckmateTeamColour != CheckStatus.None)
+            if (depth == 0 || gameboard.CheckmateTeamColour != null)
             {
                 return gameboard.MaterialEvaluation(TeamColour.Black);
             }
