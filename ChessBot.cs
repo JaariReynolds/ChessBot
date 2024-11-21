@@ -26,7 +26,7 @@ namespace ChessBot
             int bestScore = int.MinValue;
             Action bestAction = null!;
 
-            foreach (var action in _gameboard.CalculateTeamActionsList(_gameboard.CurrentTeamColour))
+            foreach (var action in _gameboard.CalculateTeamActions(_gameboard.CurrentTeamColour))
             {
                 Gameboard simulatedBoard = new(_gameboard);
                 Action simulatedAction = new(action);

@@ -43,7 +43,7 @@ namespace ChessBot
             {
                 int maxEval = int.MinValue;
 
-                foreach (var action in gameboard.CalculateTeamActionsList(botTeamColour))
+                foreach (var action in gameboard.CalculateTeamActions(botTeamColour))
                 {
                     Gameboard simulatedBoard = new(gameboard);
                     Action simulatedAction = new(action);
@@ -60,7 +60,7 @@ namespace ChessBot
             else // player's turn (minimising bot score
             {
                 int minEval = int.MaxValue;
-                foreach (var action in gameboard.CalculateTeamActionsList(playerTeamColour))
+                foreach (var action in gameboard.CalculateTeamActions(playerTeamColour))
                 {
                     Gameboard simulatedBoard = new(gameboard);
                     Action simulatedAction = new(action);
