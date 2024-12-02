@@ -33,7 +33,7 @@ namespace ChessBot
                 simulatedBoard.PerformAction(simulatedAction);
                 int moveScore = ChessBotMethods.Minimax(simulatedBoard, depth - 1, false, _gameboard.CurrentTeamColour, int.MinValue, int.MaxValue);
 
-                if (moveScore > bestScore)
+                if (moveScore >= bestScore)
                 {
                     bestScore = moveScore;
                     bestAction = action;
