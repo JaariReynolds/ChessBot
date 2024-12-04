@@ -34,7 +34,7 @@ namespace ChessBot
         {
             if (depth == 0 || gameboard.CheckmateTeamColour != null)
             {
-                return gameboard.MaterialEvaluation(TeamColour.Black);
+                return gameboard.MaterialEvaluation(botTeamColour);
             }
 
             TeamColour playerTeamColour = botTeamColour.GetOppositeTeam();
@@ -57,7 +57,7 @@ namespace ChessBot
                 }
                 return maxEval;
             }
-            else // player's turn (minimising bot score
+            else // player's turn (minimising bot score)
             {
                 int minEval = int.MaxValue;
                 foreach (var action in gameboard.CalculateTeamActions(playerTeamColour))
