@@ -1,4 +1,4 @@
-﻿namespace ChessBot
+﻿namespace ChessBotNamespace
 {
     internal class Program
     {
