@@ -1,17 +1,12 @@
 ﻿using Chess.Classes;
 
-namespace ChessBot
+namespace ChessBotNamespace
 {
-    public enum BotDifficulty
-    {
-        Easy
-    }
-
     public class ChessBot
     {
         protected readonly Gameboard _gameboard;
 
-        public ChessBot(BotDifficulty botDifficulty, Gameboard gameboard)
+        public ChessBot(Gameboard gameboard)
         {
             _gameboard = gameboard;
         }
@@ -33,7 +28,7 @@ namespace ChessBot
                 simulatedBoard.PerformAction(simulatedAction);
                 int moveScore = ChessBotMethods.Minimax(simulatedBoard, depth - 1, false, _gameboard.CurrentTeamColour, int.MinValue, int.MaxValue);
 
-                if (moveScore >= bestScore)
+                if (moveScore > bestScore)
                 {
                     bestScore = moveScore;
                     bestAction = action;

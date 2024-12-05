@@ -1,7 +1,7 @@
 ﻿using Chess.Classes;
 using Chess.Types;
 
-namespace ChessBot
+namespace ChessBotNamespace
 {
     internal static class ChessBotMethods
     {
