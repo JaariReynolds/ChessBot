@@ -7,10 +7,22 @@ namespace ChessBotNamespace
     {
         public static int EvaluatedActionsCount = 0;
 
+        public static int EvaluateActionPriority(Action action, Piece[][] board)
+        {
+            var evaluation = 0;
+
+            if (action.ActionType == ActionType.Capture)
+                evaluation += 100 + board[action.Square.X][action.Square.Y].PieceValue;
+
+            return evaluation;
+
+        }
+
+
         /// <summary>
         /// Returns the difference in Material value on the current board, with a positive int being in White's favour
         /// </summary>
-        public static int MaterialEvaluation(this Gameboard gameboard, TeamColour botTeam)
+        public static int MaterialEvaluation(this Gameboard gameboard)
         {
             int score = 0;
 
@@ -22,24 +34,23 @@ namespace ChessBotNamespace
 
                     if (piece == null || piece.Name == PieceName.King) continue;
 
-                    score += piece.TeamColour == botTeam ? piece.PieceValue : -piece.PieceValue;
+                    score += piece.TeamColour == TeamColour.White ? piece.PieceValue : -piece.PieceValue;
                 }
             }
-
             EvaluatedActionsCount++;
             return score;
         }
 
-        public static int Minimax(this Gameboard gameboard, int depth, bool isMaximisingPlayer, TeamColour botTeamColour, int alpha, int beta)
+        public static int Minimax(this Gameboard gameboard, int depth, bool isBotTurn, TeamColour botTeamColour, int alpha, int beta)
         {
             if (depth == 0 || gameboard.CheckmateTeamColour != null)
             {
-                return gameboard.MaterialEvaluation(botTeamColour);
+                return gameboard.MaterialEvaluation();
             }
 
             TeamColour playerTeamColour = botTeamColour.GetOppositeTeam();
 
-            if (isMaximisingPlayer) // bot's turn (maximising bot score)
+            if (isBotTurn) // (maximising bot score)
             {
                 int maxEval = int.MinValue;
 
@@ -65,9 +76,7 @@ namespace ChessBotNamespace
                     Gameboard simulatedBoard = new(gameboard);
                     Action simulatedAction = new(action);
                     simulatedBoard.PerformAction(simulatedAction);
-
                     int eval = Minimax(simulatedBoard, depth - 1, true, botTeamColour, alpha, beta);
-
                     minEval = Math.Min(minEval, eval);
                     beta = Math.Min(beta, eval);
 
